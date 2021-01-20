@@ -1,7 +1,8 @@
 # Chat App by NestJS
+![Node.js CI](https://github.com/amirasaad/chat-app-nestjs/workflows/Node.js%20CI/badge.svg)
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Nest](https://github.com/nestjs/nest) .
 
 ## Installation
 

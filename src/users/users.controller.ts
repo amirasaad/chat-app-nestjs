@@ -1,9 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-
-export class SignupDto {
-  email: string;
-  password: string;
-}
+import { SignupDto } from './dto/signup.dto';
 
 @Controller('users')
 export class UsersController {
