@@ -16,7 +16,7 @@ describe('Users', () => {
     await app.init();
   });
 
-  describe(`/POST users`, () => {
+  describe(`POST /users`, () => {
     it('should return response with status code 201 for valid input', () => {
       return request(app.getHttpServer())
         .post('/users')
@@ -61,6 +61,34 @@ describe('Users', () => {
           message: ['password must be longer than or equal to 6 characters'],
           error: 'Bad Request',
         });
+    });
+  });
+
+  describe('POST /auth/login', () => {
+    it('should return response with code 201 created and jwt access_token in payload body for vaild creds', (done) => {
+      return request(app.getHttpServer())
+        .post('/auth/login')
+        .send({ email: 'morty@example.com', password: 'P@$$w0rd' })
+        .expect(201)
+        .then((response) => {
+          expect(response.body).toHaveProperty('access_token');
+          done();
+        })
+        .catch((err) => done(err));
+    });
+  });
+
+  describe('GET /users/me', () => {
+
+    it('should return response with code 401 Unauthorized if user is not logged in', (done) => {
+      return request(app.getHttpServer())
+        .get('/users/me')
+        .expect(401)
+        .then((response) => {
+          expect(response.body.message).toEqual('Unauthorized');
+          done();
+        })
+        .catch((err) => done(err));
     });
   });
 
