@@ -80,7 +80,7 @@ describe('Users', () => {
 
   describe('POST /auth/login', () => {
     it('should return response with code 201 created and jwt access_token in payload body for vaild creds', async (done) => {
-      const savedUser = await usersService.create(userData);
+      await usersService.create(userData);
       return request(app.getHttpServer())
         .post('/auth/login')
         .send({ email: userData.email, password: userData.password })
@@ -88,7 +88,9 @@ describe('Users', () => {
           console.log(response.body);
           expect(response.body).toHaveProperty('access_token');
           jwtToken = response.body.access_token;
-          expect(jwtToken).toMatch(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/);
+          expect(jwtToken).toMatch(
+            /^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/,
+          );
           done();
         })
         .catch((err) => done(err));
@@ -112,7 +114,7 @@ describe('Users', () => {
         .set('Authorization', `Bearer ${jwtToken}`)
         .expect(200)
         .then((response) => {
-          console.log(response.body)
+          console.log(response.body);
           expect(response.body).toHaveProperty('email', 'morty@example.com');
           done();
         })

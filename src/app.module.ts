@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ChatController } from './chat/chat.controller';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       `mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`,
     ),
   ],
-  controllers: [AppController],
+  controllers: [AppController, ChatController],
   providers: [AppService],
 })
 export class AppModule {}

@@ -8,9 +8,7 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectModel('User') private readonly userModel: Model<IUser>,
-  ) {}
+  constructor(@InjectModel('User') private readonly userModel: Model<IUser>) {}
 
   async findAll() {
     return await this.userModel.find({});
@@ -20,17 +18,17 @@ export class UsersService {
   }
 
   async create(signupDto: SignupDto): Promise<ISignupStatus> {
-    let status: ISignupStatus = {
+    const status: ISignupStatus = {
       success: true,
       message: 'User signed up successfuly.',
     };
     const user = new this.userModel(signupDto);
     user.save().then((user) => {
       if (!user) {
-        status.message = 'Error has been ocurred.'
-        status.success = false
+        status.message = 'Error has been ocurred.';
+        status.success = false;
       }
-    })
+    });
     return status;
   }
 }

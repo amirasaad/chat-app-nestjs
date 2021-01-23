@@ -5,11 +5,13 @@ import { UsersService } from '../../../src/users/users.service';
 
 describe('UsersController', () => {
   let controller: UsersController;
-  const result = { message: 'User is signed up.', success: true};
+  const result = { message: 'User is signed up.', success: true };
   const res = mocks.createResponse();
-  let usersService = {
-    findOneByEmail: () => { email: 'test@test.com' },
-    create: (signupDto) => result
+  const usersService = {
+    findOneByEmail: () => {
+      email: 'test@test.com';
+    },
+    create: (_signupDto: any) => result,
   };
 
   beforeEach(async () => {
@@ -18,7 +20,7 @@ describe('UsersController', () => {
       providers: [UsersService],
     })
       .overrideProvider(UsersService)
-    .useValue(usersService)
+      .useValue(usersService)
       .compile();
 
     controller = module.get<UsersController>(UsersController);
@@ -30,8 +32,12 @@ describe('UsersController', () => {
 
   describe('signup', () => {
     it('should create user', async () => {
-
-      expect(await controller.signup(res, {email: 'test@test.com', password: 'test'})).toBe(result);
+      expect(
+        await controller.signup(res, {
+          email: 'test@test.com',
+          password: 'test',
+        }),
+      ).toBe(result);
     });
   });
 });
