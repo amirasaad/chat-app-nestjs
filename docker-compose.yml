@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+
+  server:
+    build: .
+    image: chat_app
+    env_file: .env
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo
+    command: npm start
+
+  mongo:
+    image: mongo:bionic
+    restart: always
+    volumes:
+      - mongodata:/data/db
+
+volumes:
+  mongodata: {}

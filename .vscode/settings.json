@@ -1,16 +1,10 @@
 {
-    "jestrunner.codeLensSelector": "**/*.{spec,e2e-spec}.{js,jsx,ts,tsx}",
     "jestTestExplorer.flattenExplorer": true,
     "jestTestExplorer.logpanel": true,
     "jest.disabledWorkspaceFolders": [
 
     ],
     "jest.showCoverageOnLoad": true,
-    "jestRunIt.testMatchPatterns": [
-
-        "**/*.{spec,e2e-spec}}.{js,ts,jsx,tsx}",
-
-    ],
     "jestTestExplorer.featureToggles": [
 
         "**/*.{spec,e2e-spec}}.{js,ts,jsx,tsx}"

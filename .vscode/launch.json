@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "node",
+            "name": "e2e",
+            "request": "launch",
+            "program": "${workspaceFolder}/node_modules/jest/bin/jest",
+            "args": [
+                "./tests/jest-e2e.json"
+            ],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "openOnFirstSessionStart",
+            "disableOptimisticBPs": true,
+
+        },
+        {
+            "type": "node",
             "name": "vscode-jest-tests",
             "request": "launch",
             "args": [

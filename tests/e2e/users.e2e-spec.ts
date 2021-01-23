@@ -2,9 +2,17 @@ import * as request from 'supertest';
 import { Test } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { AppModule } from '../../src/app.module';
+import * as faker from 'faker';
+import { UsersService } from '../../src/users/users.service';
 
 describe('Users', () => {
   let app: INestApplication;
+  let jwtToken: string;
+  let usersService: UsersService;
+  const userData = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  };
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -14,17 +22,23 @@ describe('Users', () => {
     app = moduleRef.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());
     await app.init();
+    usersService = moduleRef.get<UsersService>(UsersService);
   });
 
   describe(`POST /users`, () => {
-    it('should return response with status code 201 for valid input', () => {
+    it('should return response with status code 201 for valid input', (done) => {
       return request(app.getHttpServer())
         .post('/users')
         .send({ email: 'rick@example.com', password: 'P@$$word' })
         .expect(201)
-        .expect({
-          email: 'rick@example.com',
-        });
+        .then((response) => {
+          expect(response.body).toHaveProperty(
+            'message',
+            'User signed up successfuly.',
+          );
+          done();
+        })
+        .catch((err) => done(err));
     });
     it('should return response with status code 400 for invalid email', () => {
       return request(app.getHttpServer())
@@ -65,13 +79,16 @@ describe('Users', () => {
   });
 
   describe('POST /auth/login', () => {
-    it('should return response with code 201 created and jwt access_token in payload body for vaild creds', (done) => {
+    it('should return response with code 201 created and jwt access_token in payload body for vaild creds', async (done) => {
+      const savedUser = await usersService.create(userData);
       return request(app.getHttpServer())
         .post('/auth/login')
-        .send({ email: 'morty@example.com', password: 'P@$$w0rd' })
-        .expect(201)
+        .send({ email: userData.email, password: userData.password })
         .then((response) => {
+          console.log(response.body);
           expect(response.body).toHaveProperty('access_token');
+          jwtToken = response.body.access_token;
+          expect(jwtToken).toMatch(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/);
           done();
         })
         .catch((err) => done(err));
@@ -79,13 +96,24 @@ describe('Users', () => {
   });
 
   describe('GET /users/me', () => {
-
     it('should return response with code 401 Unauthorized if user is not logged in', (done) => {
       return request(app.getHttpServer())
         .get('/users/me')
         .expect(401)
         .then((response) => {
           expect(response.body.message).toEqual('Unauthorized');
+          done();
+        })
+        .catch((err) => done(err));
+    });
+    it('should return response with code 200 and current user payload', (done) => {
+      return request(app.getHttpServer())
+        .get('/users/me')
+        .set('Authorization', `Bearer ${jwtToken}`)
+        .expect(200)
+        .then((response) => {
+          console.log(response.body)
+          expect(response.body).toHaveProperty('email', 'morty@example.com');
           done();
         })
         .catch((err) => done(err));
