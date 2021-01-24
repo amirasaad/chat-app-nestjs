@@ -15,5 +15,4 @@ describe('ChatController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
-
 });

@@ -6,6 +6,6 @@ export interface IUser extends UserDocument {
 }
 
 export interface IUserInDB {
-    _id: number,
-    email: string
+  _id: number;
+  email: string;
 }

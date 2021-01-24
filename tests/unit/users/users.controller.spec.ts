@@ -3,7 +3,6 @@ import { UsersController } from '../../../src/users/users.controller';
 import * as mocks from 'node-mocks-http';
 import { UsersService } from '../../../src/users/users.service';
 
-
 describe('UsersController', () => {
   let controller: UsersController;
   const result = { message: 'User is signed up.', success: true };
