@@ -1,8 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ChatService } from '../../../src/chat/chat.service';
 
+const rooms = [{room_id: 1, name: 'Room#1', users: []}, {room_id: 2, name: 'Room#2', users: []}]
 class ChatServiceMock {
-  rooms = [{room_id: 1, name: 'Room#1', users: []}, {room_id: 2, name: 'Room#2', users: []}]
+  rooms = rooms
   async findAll() {
     return this.rooms
   }
@@ -37,15 +38,15 @@ describe('ChatService', () => {
 
   describe('findOne', () => {
     it('should return a room by id if exists', async () => {
-      const expected = { room_id: 1, name: 'Room#1' }
+      const expected = rooms[0]
       const room = await service.findOne(1);
       expect(room).toEqual(expected)
     })
   })
   describe('findAll', () => {
     it('should return all rooms', async () => {
-      const rooms = await service.findAll();
-      expect(rooms).toEqual([{room_id: 1, name: 'Room#1'}, {room_id: 2, name: 'Room#2'}])
+      const actual_rooms = await service.findAll();
+      expect(actual_rooms).toEqual(rooms)
     })
   })
 
