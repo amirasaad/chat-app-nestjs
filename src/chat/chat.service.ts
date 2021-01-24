@@ -14,7 +14,7 @@ export class ChatService {
   ) {}
 
   async findOne(room_id: number): Promise<IRoom> {
-    return await this.roomModel.findById(room_id).exec();
+    return await this.roomModel.findOne({ id: room_id }).exec();
   }
 
   async findAll(): Promise<Array<IRoom>> {

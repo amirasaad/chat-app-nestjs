@@ -4,8 +4,8 @@ import { Test } from '@nestjs/testing';
 import { AppModule } from '../../src/app.module';
 import * as faker from 'faker';
 import { ChatService } from '../../src/chat/chat.service';
-import { JwtAuthGuard } from 'src/auth/guards/jwt';
-import { IRoom } from 'src/chat/interfaces/room';
+import { JwtAuthGuard } from '../../src/auth/guards/jwt';
+import { IRoom } from '../../src/chat/interfaces/room';
 
 describe('Chat', () => {
   let app: INestApplication;
