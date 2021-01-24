@@ -41,4 +41,4 @@ jobs:
     - name: Run docker-compose
       run: docker-compose -f docker-compose.yml up -d
     - name: 'Test'
-      run: docker-compose exec server npm run test:e2e
+      run: docker-compose run server npm run test:e2e
