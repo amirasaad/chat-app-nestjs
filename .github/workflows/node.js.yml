@@ -30,24 +30,15 @@ jobs:
     - name: 'Lint'
       run: npm run lint
     - name: 'Build'
-      run: npm run build 
-    - name: 'Test' 
+      run: npm run build
+    - name: 'Test'
       run: npm run test:cov
   e2e:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 15.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: 'Install dependencies'
-      run: npm i
-    - name: 'Test' 
-      run: npm run test:e2e
+    - name: Run docker-compose
+      run: docker-compose -f docker-compose.yml up -d
+    - name: 'Test'
+      run: docker-compose exec server npm run test:e2e
