@@ -4,7 +4,14 @@ services:
   server:
     build: .
     image: chat_app
-    env_file: .env
+    environment:
+      - PORT=3000
+      - HOST=0.0.0.0
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - MONGO_DB=chat-app-test
+      - MONGOMS_DEBUG=1
+      - NODE_ENV=test
     ports:
       - 3000:3000
     depends_on:
