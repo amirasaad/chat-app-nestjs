@@ -18,7 +18,7 @@ export class UsersService {
   }
 
   async create(signupDto: SignupDto): Promise<ISignupStatus> {
-    const status: ISignupStatus = {
+    let status: ISignupStatus = {
       success: true,
       message: 'User signed up successfuly.',
     };
