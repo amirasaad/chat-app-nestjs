@@ -7,7 +7,6 @@ export type RoomDocument = Room & Document;
 
 @Schema()
 export class Room {
-
   @Prop()
   name: string;
 

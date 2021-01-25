@@ -1,35 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { IRoomType } from '../../../src/chat/interfaces/room';
 import { ChatService } from '../../../src/chat/chat.service';
+import { ChatServiceMock } from '../utils/chat.service.mock';
 
-const rooms = [
-  { room_id: 1, name: 'Room#1', users: [] },
-  { room_id: 2, name: 'Room#2', users: [] },
+const rooms: Array<IRoomType> = [
+  { id: 1, name: 'Room#1', users: [] },
+  { id: 2, name: 'Room#2', users: [] },
 ];
-class ChatServiceMock {
-  rooms = rooms;
-  async findAll() {
-    return this.rooms;
-  }
-  async findOne(room_id: number) {
-    return this.rooms.find((room) => room.room_id === room_id);
-  }
 
-  async join(room_id: number, user: any) {
-    const room = await this.findOne(room_id);
-    room.users.push(user);
-    return {
-      success: true,
-      message: 'User is added to the room.',
-    };
-  }
-}
 describe('ChatService', () => {
   let service: ChatService;
 
   beforeEach(async () => {
     const ChatServiceProvider = {
       provide: ChatService,
-      useClass: ChatServiceMock,
+      useValue: new ChatServiceMock(rooms),
     };
     const module: TestingModule = await Test.createTestingModule({
       providers: [ChatService, ChatServiceProvider],

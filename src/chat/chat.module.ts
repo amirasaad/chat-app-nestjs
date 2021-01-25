@@ -8,7 +8,7 @@ import { RoomSchema } from './schemas/room';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'Room', schema: RoomSchema }]),
-    UsersModule
+    UsersModule,
   ],
   controllers: [ChatController],
   providers: [ChatService],
